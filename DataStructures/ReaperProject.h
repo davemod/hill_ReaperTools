@@ -22,7 +22,9 @@ public:
     const static inline Identifier ID {"REAPER_PROJECT"};
     
     Project ();
-    
+    Project (const ValueTree& projectTree);
+    Project (const Project& other);
+
 //    RIPPLE 0
 //    GROUPOVERRIDE 0 0 0
 //    AUTOXFADE 1
@@ -134,6 +136,7 @@ public:
 //    MASTER_FX 1
 //    MASTER_SEL 0
 
+    Track getTrack (int trackNo) const { return getNthChildOfType <Track> (trackNo); }
 
   protected:
   

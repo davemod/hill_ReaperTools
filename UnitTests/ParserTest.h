@@ -23,6 +23,7 @@
 namespace ReaperTest
 {
     static File getReaperTestFile ();
+    static Reaper::Project getReaperTestProject ();
 
     class ParserTest : public UnitTest
     {
@@ -42,5 +43,5 @@ namespace ReaperTest
     };
 
     const static inline ParserTest parserTest;
-
+    
 };

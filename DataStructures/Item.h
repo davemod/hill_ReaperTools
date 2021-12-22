@@ -9,7 +9,8 @@ public:
 	const static inline Identifier ID {"ITEM"};
 
 	Item ();
-   
+    Item (const ValueTree& itemTree);
+
 	void setPosition (double position, bool selfCallback = false) { setValue (position, POSITIONID, selfCallback); }
 	double getPosition () const { return getValue<double> (POSITIONID); }
 
@@ -61,6 +62,8 @@ public:
 	void setGuid (const String& guid, bool selfCallback = false) { setValue (guid, GUIDID, selfCallback); }
 	String getGuid () const { return getValue<String> (GUIDID); }
 
+    Source getSource () { return getFirstChildOfType <Source> (); }
+    
 private:
 
 	const static inline Identifier POSITIONID {"POSITION"};	// POSITION 2.5

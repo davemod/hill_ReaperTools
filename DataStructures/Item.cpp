@@ -12,9 +12,11 @@ ValueTreeWrapper (ID)
 
 }
 
-
-
-
+Item::Item (const ValueTree& itemTree)
+:
+ValueTreeWrapper (ID, itemTree)
+{
+}
 
 
 };

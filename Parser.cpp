@@ -21,6 +21,57 @@ static var parseValue (const String& valueAsString)
     
 }
 
+enum LineType { NewChild, CloseChild, ChildProperty, EnvelopePoint };
+static LineType getLineType (const String& line)
+{
+    auto l = line.trim();
+    
+    if (l.startsWith("<"))
+        return NewChild;
+    
+    if (l.startsWith("PT "))
+        return EnvelopePoint;
+    
+    if (l.endsWith(">"))
+        return CloseChild;
+    
+    return ChildProperty;
+}
+
+static void writeProperty (ValueTree& vtToWriteTo, const String& line, const bool& loadValuesAsVarArrays)
+{
+    juce::StringArray property;
+    property.addTokens (line.trim(), " ", "\"");
+    
+    if (property.size() > 0)
+    {
+        jassert (vtToWriteTo.isValid());
+        
+        juce::String name = property.getReference(0);
+        
+        property.remove (0);
+        
+        if (loadValuesAsVarArrays)
+        {
+            
+            if (property.size () == 1)
+            {
+                vtToWriteTo.setProperty (name, property[0], nullptr);
+            }
+            else
+            {
+                vtToWriteTo.setProperty (name, property, nullptr);
+            }
+        }
+        else
+        {
+            auto values = property.joinIntoString(" ");
+            vtToWriteTo.setProperty(name, values, nullptr);
+        }
+    }
+}
+
+
 juce::ValueTree Reaper::createValueTreeFromReaperFile(const juce::File &file, const bool& loadValuesAsVarArrays)
 {
     if (! file.getFileExtension().equalsIgnoreCase (".rpp"))
@@ -38,9 +89,10 @@ juce::ValueTree Reaper::createValueTreeFromReaperFile(const juce::File &file, co
     
     for (auto line : lines)
     {
-        juce::String l = line.trim();
+        auto l = line.trim();
+        auto lineType = getLineType (l);
         
-        if (l.startsWith("<"))
+        if (lineType == NewChild)
         {
             l = l.trimCharactersAtStart("<");
             juce::StringArray elementAndAttributes;
@@ -61,44 +113,27 @@ juce::ValueTree Reaper::createValueTreeFromReaperFile(const juce::File &file, co
             child.appendChild(newChild, nullptr);
             child = newChild;
         }
-        else if (l.endsWith(">"))
+        else if (lineType == CloseChild)
         {
             jassert (child.isValid());
             jassert (child.getParent().isValid());
             
             child = child.getParent();
         }
-        else
+        else if (lineType == EnvelopePoint)
         {
-            juce::StringArray property;
-            property.addTokens (l, " ", "\"");
-            
-            if (property.size() > 0)
+            jassert (child.isValid());
+            if (child.isValid())
             {
-                jassert (child.isValid());
-
-                juce::String name = property.getReference(0);
-
-                property.remove (0);
-
-                if (loadValuesAsVarArrays)
-                {
-
-                    if (property.size () == 1)
-                    {
-                        child.setProperty (name, property[0], nullptr);
-                    }
-                    else
-                    {
-                        child.setProperty (name, property, nullptr);
-                    }
-                }
-                else
-                {
-                    auto values = property.joinIntoString(" ");
-                    child.setProperty(name, values, nullptr);
-                }
+                jassert (child.getType ().toString().contains("ENV"));
+                ValueTree point {"PT"};
+                writeProperty (point, l, loadValuesAsVarArrays);
+                child.appendChild (point, nullptr);
             }
+        }
+        else if (lineType == ChildProperty)
+        {
+            writeProperty(child, l, loadValuesAsVarArrays);
         }
     }
     

@@ -11,6 +11,7 @@ public:
     enum Type { NONE = 0, WAVE = 1 };
 
 	Source ();
+    Source (const ValueTree& sourceTree);
 
     void setFile (const File& file, bool selfCallback = false) { setValue (file.getFullPathName(), FileId, selfCallback); }
     File getFile () const { return File (getValue<String> (FileId)); }

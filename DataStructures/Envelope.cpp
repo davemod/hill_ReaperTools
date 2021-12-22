@@ -1,20 +1,40 @@
 namespace Reaper
 {
 
-Track::Track ()
+EnvelopePoint::EnvelopePoint
 :
 ValueTreeWrapper (ID)
+{}
+
+EnvelopePoint::EnvelopePoint (const ValueTree& ptTree)
+:
+ValueTreeWrapper (ID, ptTree)
+{}
+
+EnvelopePoint::EnvelopePoint (const EnvelopePoint& other)
+:
+ValueTreeWrapper (other)
+{}
+
+double EnvelopePoint::getTension ()
 {
     
 }
 
-Track::Track (const ValueTree& trackTree)
+
+Envelope::Envelope ()
 :
-ValueTreeWrapper (ID, trackTree)
+ValueTreeWrapper (ID)
 {
 }
 
-Track::Track (const Track& other)
+Envelope::Envelope (const Identifier& type, const ValueTree& trackTree)
+:
+ValueTreeWrapper (type, trackTree)
+{
+}
+
+Envelope::Envelope (const Envelope& other)
 :
 ValueTreeWrapper (other)
 {

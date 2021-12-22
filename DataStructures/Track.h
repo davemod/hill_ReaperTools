@@ -9,7 +9,9 @@ class Track : public ValueTreeWrapper
 public:
     
     Track ();
-    
+    Track (const ValueTree& trackTree);
+    Track (const Track& other);
+
     const static inline Identifier ID {"TRACK"};
 
     void setName (const String& name, bool selfCallback = false) { setValue (name, NAMEID, selfCallback); }
@@ -26,16 +28,14 @@ public:
     void setVolPan (Array<var> volPan, bool selfCallback = false);
     Array<var> getVolPan () const;
     
+    // VOLPAN
     void setVolume (float volume);
     float getVolume () const;
     
     void setPan (float pan);
     float getPan () const;
     
-    void setMUTESOLO (Array<var> muteSolo, bool selfCallback = false) { setValue (muteSolo, MUTESOLOID, selfCallback); }
-    Array<var> getMuteSolo () const { return getValue<Array<var>> (MUTESOLOID); }
-    Array<var> * getMuteSoloPtr () const;
-    
+    // MUTESOLO
     void setMute (bool mute);
     bool getMute () const;
     
@@ -63,6 +63,8 @@ public:
     // void setMIDIOUT (bool selfCallback = false);
     // void setMAINSEND (bool selfCallback = false);
     
+    Item getItem (int itemNo) const { return getNthChildOfType <Item> (itemNo); }
+    
 private:
 
     const static inline Identifier NAMEID {"NAME"}; // "Midi Track"
@@ -89,6 +91,8 @@ private:
     const static inline Identifier MIDIOUTID {"MIDIOUT"}; // -1
     const static inline Identifier MAINSENDID {"MAINSEND"}; // 1 0
 
+    void initValueTree () override {}
+    
 };
 
 }

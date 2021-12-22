@@ -22,6 +22,19 @@ ValueTreeWrapper (ID)
     
 }
 
+Project::Project (const ValueTree& projectTree)
+:
+ValueTreeWrapper (ID, projectTree)
+{
+}
+
+Project::Project (const Project& other)
+:
+ValueTreeWrapper (other)
+{
+    
+}
+
 void Project::setTimeSignature (TimeSignature ts)
 {
     setValueInVarArray (TEMPOID, 1, ts.nominator);

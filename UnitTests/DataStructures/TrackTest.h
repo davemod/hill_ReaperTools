@@ -1,7 +1,11 @@
+#pragma once
+
 using namespace juce;
 
-namespace Reaper
+namespace ReaperTest
 {
+
+using namespace Reaper;
 
 class TrackTest : public UnitTest
 {
@@ -14,18 +18,23 @@ public:
     
 private:
 
+    Project reaperProject;
+    Track track;
+    
+    void initTest ();
+    
     void setNameTest ();
     void setPeakColTest ();
 
 //    void setBeat (bool selfCallback = false);
 
     void setAutoModeTest ();
-    void setVolPanTest ();
-    void setVolumeTes ();
+    void setVolumeTest ();
     void setPanTest ();
-    void setMuteSoloTest ();
     void setMuteTest ();
     void setSoloTest ();
+    
+    void getItemTest ();
     
     // void setIPHASE (bool selfCallback = false);
     
@@ -64,5 +73,7 @@ private:
     
     
 };
+
+static inline TrackTest trackTest;
 
 }

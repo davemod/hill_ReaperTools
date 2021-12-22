@@ -45,6 +45,8 @@ void ProjectTest::runTest ()
         setSelection2Test ();
         setVolumeTest ();
         setPanTest ();
+        
+        getTrackTest ();
     }
     
     // it seems that the static instance of this test will be deleted AFTER the leak detector of juce does its work. so clear the project here to avoid the leaking detector detecting any leaks ...
@@ -122,5 +124,18 @@ void ProjectTest::setPanTest ()
     expectEquals (reaperProject.getPan (), -0.1f);
 }
 
+void ProjectTest::getTrackTest ()
+{
+    beginTest ("getTrackTest");
+    
+    auto trackA = reaperProject.getTrack (0);
+    expect (trackA.isValid());
+
+    auto trackB = reaperProject.getTrack (1);
+    expect (trackB.isValid());
+    
+    auto trackC = reaperProject.getTrack (2);
+    expect (trackC.isValid());
+}
 
 };

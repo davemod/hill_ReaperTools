@@ -14,7 +14,7 @@
 
 //#include "SourceTest.h"
 //#include "ItemTest.h"
-//#include "TrackTest.h"
+#include "TrackTest.h"
 #include "ReaperProjectTest.h"
 
 namespace ReaperTest

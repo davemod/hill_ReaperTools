@@ -12,6 +12,12 @@ ValueTreeWrapper (ID)
 
 }
 
+Source::Source (const ValueTree& sourceTree)
+:
+ValueTreeWrapper (ID, sourceTree)
+{
+    
+}
 
 
 

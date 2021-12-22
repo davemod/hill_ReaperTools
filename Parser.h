@@ -14,6 +14,6 @@
 
 namespace Reaper
 {
-juce::ValueTree createValueTreeFromReaperFile (const juce::File& reaperFile, const bool& loadValuesAsVarArrays = false);
+juce::ValueTree createValueTreeFromReaperFile (const juce::File& reaperFile, const bool& loadValuesAsVarArrays = true);
 std::unique_ptr<juce::XmlElement> createXmlFromReaperFile (const juce::File& reaperFile);
 };

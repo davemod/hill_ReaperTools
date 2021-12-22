@@ -38,6 +38,8 @@ private:
     void setVolumeTest ();
     void setPanTest ();
     
+    void getTrackTest ();
+    
     File testFile;
     Project reaperProject;
 };
