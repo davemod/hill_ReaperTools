@@ -1,3 +1,4 @@
+#include "Envelope.cpp"
 #include "Source.cpp"
 #include "Item.cpp"
 #include "Track.cpp"

@@ -12,6 +12,9 @@
 
 #include <hill_ValueTreeTools/ValueTreeWrapper.h>
 
+#include "Helpers.h"
+
+#include "Envelope.h"
 #include "Source.h"
 #include "Item.h"
 #include "Track.h"

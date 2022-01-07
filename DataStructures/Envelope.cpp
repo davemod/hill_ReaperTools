@@ -1,7 +1,9 @@
+#include "Envelope.h"
+
 namespace Reaper
 {
 
-EnvelopePoint::EnvelopePoint
+EnvelopePoint::EnvelopePoint ()
 :
 ValueTreeWrapper (ID)
 {}
@@ -16,15 +18,51 @@ EnvelopePoint::EnvelopePoint (const EnvelopePoint& other)
 ValueTreeWrapper (other)
 {}
 
-double EnvelopePoint::getTension ()
+void EnvelopePoint::setPosition (double Position)
 {
     
 }
 
+double EnvelopePoint::getPosition ()
+{
+    
+}
 
-Envelope::Envelope ()
+void EnvelopePoint::setLevel (double level)
+{
+    
+}
+
+double EnvelopePoint::getLevel ()
+{
+    
+}
+
+void EnvelopePoint::setShape (double Shape)
+{}
+double EnvelopePoint::getShape ()
+{}
+
+void EnvelopePoint::setSelected (double Selected)
+{}
+double EnvelopePoint::getSelected ()
+{}
+
+void EnvelopePoint::setUnknownAttribute (double UnknownAttribute)
+{}
+double EnvelopePoint::getUnknownAttribute ()
+{}
+
+void EnvelopePoint::setTension (double Tension)
+{}
+double EnvelopePoint::getTension ()
+{}
+
+// ==================================================
+// ==================================================
+Envelope::Envelope (const Identifier& type)
 :
-ValueTreeWrapper (ID)
+ValueTreeWrapper (type)
 {
 }
 
@@ -40,44 +78,11 @@ ValueTreeWrapper (other)
 {
 }
 
-void Track::setVolume (float volume)
-{
-    setValueInVarArray (VOLPANID, 0, volume);
-}
 
-float Track::getVolume () const
-{
-    return (float)getValueInVarArray<double> (VOLPANID, 0);
-}
 
-void Track::setPan (float pan)
-{
-    setValueInVarArray (VOLPANID, 1, pan);
-}
 
-float Track::getPan () const
-{
-    return (float)getValueInVarArray<double> (VOLPANID, 1);
-}
 
-void Track::setMute (bool mute)
-{
-    setValueInVarArray (MUTESOLOID, 0, mute);
-}
 
-bool Track::getMute () const
-{
-    return getValueInVarArray <bool> (MUTESOLOID, 0);
-}
 
-void Track::setSolo (bool solo)
-{
-    setValueInVarArray (MUTESOLOID, 1, solo ? 2 : 0);
-}
-
-bool Track::getSolo () const
-{
-    return getValueInVarArray<int> (MUTESOLOID,1) > 0;
-}
 
 };

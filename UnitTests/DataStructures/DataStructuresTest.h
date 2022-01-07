@@ -12,8 +12,9 @@
 
 #include <hill_ValueTreeTools/ValueTreeWrapper.h>
 
-//#include "SourceTest.h"
-//#include "ItemTest.h"
+#include "EnvelopeTest.h"
+#include "SourceTest.h"
+#include "ItemTest.h"
 #include "TrackTest.h"
 #include "ReaperProjectTest.h"
 

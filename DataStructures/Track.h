@@ -64,6 +64,7 @@ public:
     // void setMAINSEND (bool selfCallback = false);
     
     Item getItem (int itemNo) const { return getNthChildOfType <Item> (itemNo); }
+    VolumeEnvelope2 getVolumeEnvelope2 () const { return getFirstChildOfType<VolumeEnvelope2> (); }
     
 private:
 
@@ -90,7 +91,7 @@ private:
     const static inline Identifier PERFID {"PERF"}; // 0
     const static inline Identifier MIDIOUTID {"MIDIOUT"}; // -1
     const static inline Identifier MAINSENDID {"MAINSEND"}; // 1 0
-
+    
     void initValueTree () override {}
     
 };

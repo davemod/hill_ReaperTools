@@ -1,3 +1,5 @@
+#pragma once
+
 using namespace juce;
 
 namespace Reaper
@@ -11,22 +13,28 @@ public:
     EnvelopePoint (const ValueTree& ptTree);
     EnvelopePoint (const EnvelopePoint& other);
     
-    const static Identifier ID {"PT"};
-    const static Identifier ValuesId {"PT"};
+    const static inline Identifier ID {"PT"};
+    const static inline Identifier ValuesId {"PT"};
     
-    double get (int index)
-    {
-        return getValueInVarArray<double> (ValuesId, index);
-    }
-
-    double operator[](int index)
-    {
-        return get (index);
-    }
+    void setPosition (double Position);
+    double getPosition ();
     
+    void setLevel (double level);
+    double getLevel ();
+    
+    void setShape (double Shape);
+    double getShape ();
+    
+    void setSelected (double Selected);
+    double getSelected ();
+    
+    void setUnknownAttribute (double UnknownAttribute);
+    double getUnknownAttribute ();
+    
+    void setTension (double Tension);
     double getTension ();
     
-    Array<var> * getValues ();
+    
     
     
 //    PT 0 0.99 5 1 0 0 -0.18211639 // Position, Value, Shape, ?, Selected, Tension
@@ -49,13 +57,12 @@ class Envelope : public ValueTreeWrapper
 
 public:
     
-    Envelope ();
+    Envelope (const Identifier& type);
     Envelope (const Identifier& type, const ValueTree& envTree);
     Envelope (const Envelope& other);
 
-    
-    void setEguid (const String& eguid, bool selfCallback = false) { setValue (eguid, EGUIDID, selfCallback); }
-    String getEguid () const { return getValue<String> (EGUIDID); }
+    void setEguid (const GUID& eguid, bool selfCallback = false) { setValue ((String)eguid, EGUIDID, selfCallback); }
+    GUID getEguid () const { return getValue<String> (EGUIDID); }
     
     void setActive (bool active, bool selfCallback = false) { setValueInVarArray (ACTID, 0, active); }
     bool getActive () const { return getValueInVarArray<bool> (ACTID, 0); }
@@ -97,6 +104,18 @@ private:
     const static inline Identifier VOLTYPEID {"VOLTYPE"}; // 1
 
     void initValueTree () override {}
+    
+};
+
+class VolumeEnvelope2 : public Envelope
+{
+public:
+    VolumeEnvelope2 () : Envelope (ID) {}
+    VolumeEnvelope2 (const ValueTree& vt) : Envelope (ID, vt) {}
+    
+    const static inline Identifier ID {"VOLENV2"};
+    
+private:
     
 };
 

@@ -21,21 +21,21 @@ static var parseValue (const String& valueAsString)
     
 }
 
-enum LineType { NewChild, CloseChild, ChildProperty, EnvelopePoint };
+enum LineType { TNewChild, TCloseChild, TChildProperty, TEnvelopePoint };
 static LineType getLineType (const String& line)
 {
     auto l = line.trim();
     
     if (l.startsWith("<"))
-        return NewChild;
+        return TNewChild;
     
     if (l.startsWith("PT "))
-        return EnvelopePoint;
+        return TEnvelopePoint;
     
     if (l.endsWith(">"))
-        return CloseChild;
+        return TCloseChild;
     
-    return ChildProperty;
+    return TChildProperty;
 }
 
 static void writeProperty (ValueTree& vtToWriteTo, const String& line, const bool& loadValuesAsVarArrays)
@@ -92,7 +92,7 @@ juce::ValueTree Reaper::createValueTreeFromReaperFile(const juce::File &file, co
         auto l = line.trim();
         auto lineType = getLineType (l);
         
-        if (lineType == NewChild)
+        if (lineType == TNewChild)
         {
             l = l.trimCharactersAtStart("<");
             juce::StringArray elementAndAttributes;
@@ -113,25 +113,28 @@ juce::ValueTree Reaper::createValueTreeFromReaperFile(const juce::File &file, co
             child.appendChild(newChild, nullptr);
             child = newChild;
         }
-        else if (lineType == CloseChild)
+        else if (lineType == TCloseChild)
         {
             jassert (child.isValid());
             jassert (child.getParent().isValid());
             
             child = child.getParent();
         }
-        else if (lineType == EnvelopePoint)
+        else if (lineType == TEnvelopePoint)
         {
             jassert (child.isValid());
             if (child.isValid())
             {
                 jassert (child.getType ().toString().contains("ENV"));
                 ValueTree point {"PT"};
-                writeProperty (point, l, loadValuesAsVarArrays);
+                
+                
+                
+//                writeProperty (point, l, loadValuesAsVarArrays);
                 child.appendChild (point, nullptr);
             }
         }
-        else if (lineType == ChildProperty)
+        else if (lineType == TChildProperty)
         {
             writeProperty(child, l, loadValuesAsVarArrays);
         }

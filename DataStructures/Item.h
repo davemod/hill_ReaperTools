@@ -2,6 +2,10 @@
 
 namespace Reaper
 {
+
+typedef Array<var> Playrate;
+typedef Array<var> Fade;
+
 class Item : public ValueTreeWrapper
 {
 public:
@@ -14,8 +18,8 @@ public:
 	void setPosition (double position, bool selfCallback = false) { setValue (position, POSITIONID, selfCallback); }
 	double getPosition () const { return getValue<double> (POSITIONID); }
 
-	void setSnapOffs (bool selfCallback = false);
-	void getSnapOffs () const;
+//	void setSnapOffs (bool selfCallback = false);
+//	void getSnapOffs () const;
 
 	void setLength (double length, bool selfCallback = false) { setValue (length, LENGTHID, selfCallback); }
 	double getLength () const { return getValue<double> (LENGTHID); }
@@ -26,23 +30,23 @@ public:
 	void setAllTakes (bool allTakes, bool selfCallback = false) { setValue (allTakes, ALLTAKESID, selfCallback); }
 	bool getAllTakes () const { return getValue<bool> (ALLTAKESID); }
 
-	void setFadeIn (double fade, bool selfCallback = false) { setValue (fade, FADEINID, selfCallback); }
-	double getFadeIn () const { return getValue<double> (FADEINID); }
+	void setFadeIn (Fade fade, bool selfCallback = false) { setValue (fade, FADEINID, selfCallback); }
+	Fade getFadeIn () const { return getArray (FADEINID); }
 
-	void setFadeOut (double fade, bool selfCallback = false) { setValue (fade, FADEOUTID, selfCallback); }
-	double getFadeOut () const { return getValue<double> (FADEOUTID); }
+	void setFadeOut (Fade fade, bool selfCallback = false) { setValue (fade, FADEOUTID, selfCallback); }
+	Fade getFadeOut () const { return getArray (FADEOUTID); }
 
-	void setMute (bool mute, bool selfCallback = false) { setValue (mute, MUTEID, selfCallback); }
-	bool getMute () const { return getValue<bool> (MUTEID); }
+	void setMute (bool mute, bool selfCallback = false) { setValueInVarArray (MUTEID, 0, mute); }
+	bool getMute () const { return getValueInVarArray<bool> (MUTEID, 0); }
 
 	void setSel (bool sel, bool selfCallback = false) { setValue (sel, SELID, selfCallback); }
 	bool getSel () const { return getValue<bool> (SELID); }
 
-	void setIGuid (const String iguid, bool selfCallback = false) { setValue(iguid, IGUIDID, selfCallback); }
-	String getIGuid () const { return getValue<String> (IGUIDID); }
+	void setIGuid (const GUID iguid, bool selfCallback = false) { setValue((String)iguid, IGUIDID, selfCallback); }
+    GUID getIGuid () const { return { getValue<String> (IGUIDID) }; }
 
-	void setIId (const String& iid, bool selfCallback = false) { setValue(iid, IIDID, selfCallback); }
-	String getIId () const { return getValue<String> (IIDID); }
+	void setIId (const int& iid, bool selfCallback = false) { setValue(iid, IIDID, selfCallback); }
+	int getIId () const { return getValue<int> (IIDID); }
 
 	void setName (const String& name, bool selfCallback = false) { setValue (name, NAMEID, selfCallback); }
 	String getName () const { return getValue<String> (NAMEID); }
@@ -50,17 +54,20 @@ public:
 	void setVolPan (Array<var> volPan, bool selfCallback = false) { setValue (volPan, VOLPANID, selfCallback); }
 	Array<var> getVolPan () const { return getValue<Array<var>> (VOLPANID); }
 
-	void setSOffs (bool selfCallback = false);
-	void getSOffs () const;
+    void setVolume (float volume, bool slefCallback = false) { setValueInVarArray (VOLPANID, 0, volume); }
+    float getVolume () { return getValueInVarArray<float>(VOLPANID, 0); }
+    
+    void setPan (float pan, bool slefCallback = false) { setValueInVarArray (VOLPANID, 1, pan); }
+    float getPan () { return getValueInVarArray<float>(VOLPANID, 1); }
 
-	void setPlayrate (Array<var> playRate, bool selfCallback = false) { setValue (playRate, PLAYRATEID, selfCallback); }
-	Array<var> getPlayrate () const { return getValue<Array<var>>(PLAYRATEID); }
+	void setPlayrate (Playrate playRate, bool selfCallback = false) { setValue (playRate, PLAYRATEID, selfCallback); }
+	Playrate getPlayrate () const { return getArray (PLAYRATEID); }
 
 	void setChanMode (int chanMode, bool selfCallback = false) { setValue (chanMode, CHANMODEID, selfCallback); }
 	int getChanMode () const { return getValue<int> (CHANMODEID); }
 
-	void setGuid (const String& guid, bool selfCallback = false) { setValue (guid, GUIDID, selfCallback); }
-	String getGuid () const { return getValue<String> (GUIDID); }
+	void setGuid (const GUID& guid, bool selfCallback = false) { setValue ((String)guid, GUIDID, selfCallback); }
+    GUID getGuid () const { return { getValue<String> (GUIDID) }; }
 
     Source getSource () { return getFirstChildOfType <Source> (); }
     
