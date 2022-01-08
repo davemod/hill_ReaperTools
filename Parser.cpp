@@ -87,6 +87,8 @@ juce::ValueTree Reaper::createValueTreeFromReaperFile(const juce::File &file, co
     juce::StringArray lines;
     file.readLines(lines);
     
+    jassert (lines.size() > 0);
+    
     for (auto line : lines)
     {
         auto l = line.trim();
@@ -128,9 +130,8 @@ juce::ValueTree Reaper::createValueTreeFromReaperFile(const juce::File &file, co
                 jassert (child.getType ().toString().contains("ENV"));
                 ValueTree point {"PT"};
                 
-                
-                
-//                writeProperty (point, l, loadValuesAsVarArrays);
+                writeProperty (point, l, loadValuesAsVarArrays);
+
                 child.appendChild (point, nullptr);
             }
         }

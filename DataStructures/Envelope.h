@@ -9,6 +9,26 @@ class EnvelopePoint : public ValueTreeWrapper
 {
 public:
     
+    enum Shape
+    {
+        Linear,
+        Square,
+        SlowStartEnd,
+        FastStart,
+        FastEnd,
+        Bezier
+    };
+    
+    enum Identifiers
+    {
+        PositionId,
+        LevelId,
+        ShapeId,
+        SelectedId,
+        UnknownAttributeId,
+        TensionId
+    };
+    
     EnvelopePoint ();
     EnvelopePoint (const ValueTree& ptTree);
     EnvelopePoint (const EnvelopePoint& other);
@@ -22,11 +42,11 @@ public:
     void setLevel (double level);
     double getLevel ();
     
-    void setShape (double Shape);
-    double getShape ();
+    void setShape (Shape shape);
+    Shape getShape ();
     
-    void setSelected (double Selected);
-    double getSelected ();
+    void setSelected (bool Selected);
+    bool getSelected ();
     
     void setUnknownAttribute (double UnknownAttribute);
     double getUnknownAttribute ();
@@ -34,19 +54,22 @@ public:
     void setTension (double Tension);
     double getTension ();
     
+    Array<var> * getValues () { return getArrayPointer (ValuesId); }
     
     
     
 //    PT 0 0.99 5 1 0 0 -0.18211639 // Position, Value, Shape, ?, Selected, Tension
 //    THE ARRAY DOES ONLY CONTAIN VALUES UNTIL THE LAST NON ZERO VALUE
-    const static inline Identifier PositionId {"PositionId"};
-    const static inline Identifier ValueId {"ValueId"};
-    const static inline Identifier ShapeId {"ShapeId"};
-    const static inline Identifier SelectedId {"SelectedId"};
-    const static inline Identifier UnknownAttributeId {"UnknownAttributeId"};
-    const static inline Identifier TensionId {"TensionId"};
     
 private:
+    
+    /** returns true if the value was set */
+    bool setValueInArray (int index, var newValue, bool resizeIfPossible = true);
+    template<typename T>
+    T getValueInArray (int index)
+    {
+        return getValueInVarArray<T> (ValuesId, index);
+    }
     
     void initValueTree () override {}
     
@@ -102,7 +125,7 @@ private:
     const static inline Identifier ARMID {"ARM"}; // 1
     const static inline Identifier DEFSHAPEID {"DEFSHAPE"}; // 0 -1 -1
     const static inline Identifier VOLTYPEID {"VOLTYPE"}; // 1
-
+    
     void initValueTree () override {}
     
 };
